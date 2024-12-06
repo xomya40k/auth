@@ -22,6 +22,7 @@ type Response struct {
 	RefreshToken string `json:"refresh_token"`
 }
 
+//go:generate go run github.com/vektra/mockery/v3 --name=RefreshTokenStorage
 type RefreshTokenStorage interface {
 	SaveRefreshToken(userGUID uuid.UUID, token string, jwtConfig config.JWT) (string, error)
 	RevokeRefreshToken(bindKey string) error

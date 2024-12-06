@@ -30,12 +30,14 @@ type Response struct {
 	RefreshToken string `json:"refresh_token"`
 }
 
+//go:generate go run github.com/vektra/mockery/v3 --name=RefreshTokenStorage
 type RefreshTokenStorage interface {
 	SaveRefreshToken(userGUID uuid.UUID, token string, jwtConfig config.JWT) (string, error)
 	RevokeRefreshToken(bindKey string) error
 	GetRefreshToken(bindKey string) (database.RefreshClaims, error)
 }
 
+//go:generate go run github.com/vektra/mockery/v3 --name=EmailSender
 type EmailSender interface {
 	SendIpWarnig(to, ip string) error
 }
@@ -129,8 +131,8 @@ func New(log *slog.Logger, refreshTokenStorage RefreshTokenStorage, emailSender 
 		if err != nil {
 			log.Error("Failed to find refresh token", sl.Err(err))
 			if errors.Is(err, database.ErrTokenNotFound) {
-			render.Status(r, 401)
-			render.JSON(w, r, resp.Error("Refresh token does not exist"))
+				render.Status(r, 401)
+				render.JSON(w, r, resp.Error("Refresh token does not exist"))
 			} else {
 				render.Status(r, 500)
 				render.JSON(w, r, resp.Error("Unable to find refresh token"))
