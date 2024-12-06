@@ -48,7 +48,7 @@ func New(log *slog.Logger, refreshTokenStorage RefreshTokenStorage, jwtConfig co
 		if userIp == "" {
 			log.Error("Remote address is empty")
 			render.Status(r, 401)
-			render.JSON(w, r, resp.Error("Can not to get client IP"))
+			render.JSON(w, r, resp.Error("Unable to get client IP"))
 			return
 		} else {
 			userIp, _, err = net.SplitHostPort(userIp)

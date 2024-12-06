@@ -28,7 +28,7 @@ func New(configDb config.Database) (*Database, error) {
 
 	db, err := sql.Open("postgres", psqlInfo)
 	if err != nil {
-		return nil, fmt.Errorf("%s: Can not to connect: %w", op, err)
+		return nil, fmt.Errorf("%s: Unable to connect: %w", op, err)
 	}
 
 	stmt, err := db.Prepare(`
@@ -131,7 +131,7 @@ func (d *Database) RevokeRefreshToken(bindKey string) error {
 	SET is_revoked = true
 	WHERE bind_key = $1;`)
 	if err != nil {
-		return fmt.Errorf(`%s: Can not to revoke fresh token with bind key: 
+		return fmt.Errorf(`%s: Unable to revoke refresh token using bind key: 
 		"%s": Preparing statement error: %w`, op, bindKey, err)
 	}
 
@@ -141,7 +141,7 @@ func (d *Database) RevokeRefreshToken(bindKey string) error {
 	}
 
 	if err != nil {
-		return fmt.Errorf(`%s: Can not to revoke fresh token with bind key: 
+		return fmt.Errorf(`%s: Unable to revoke refresh token using bind key: 
 		"%s": Executing statement error: %w`, op, bindKey, err)
 	}
 

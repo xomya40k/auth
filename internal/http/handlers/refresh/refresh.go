@@ -53,7 +53,7 @@ func New(log *slog.Logger, refreshTokenStorage RefreshTokenStorage, emailSender 
 		if userIp == "" {
 			log.Error("Remote address is empty")
 			render.Status(r, 401)
-			render.JSON(w, r, resp.Error("Can not to get client IP"))
+			render.JSON(w, r, resp.Error("Unable to get client IP"))
 			return
 		} else {
 			var err error
@@ -133,7 +133,7 @@ func New(log *slog.Logger, refreshTokenStorage RefreshTokenStorage, emailSender 
 			render.JSON(w, r, resp.Error("Refresh token does not exist"))
 			} else {
 				render.Status(r, 500)
-				render.JSON(w, r, resp.Error("Can not to find refresh token"))
+				render.JSON(w, r, resp.Error("Unable to find refresh token"))
 			}
 
 			return
@@ -157,7 +157,7 @@ func New(log *slog.Logger, refreshTokenStorage RefreshTokenStorage, emailSender 
 
 			err = refreshTokenStorage.RevokeRefreshToken(bindKey)
 			if err != nil {
-				log.Error("Failed to revoke refresh token", sl.Err(err))
+				log.Error("Failed to revoke expired refresh token", sl.Err(err))
 			}
 
 			render.Status(r, 401)
@@ -185,7 +185,7 @@ func New(log *slog.Logger, refreshTokenStorage RefreshTokenStorage, emailSender 
 		newAccessToken, err := tokens.GenerateAccessToken(userGUID, userIp, newBindKey,
 			jwtConfig.AccessExpires, jwtConfig.SecretKey)
 		if err != nil {
-			log.Error("Failed to save access token", sl.Err(err))
+			log.Error("Failed to generate access token", sl.Err(err))
 			err = refreshTokenStorage.RevokeRefreshToken(newBindKey)
 			if err != nil {
 				log.Error("Failed to revoke refresh token", sl.Err(err))
