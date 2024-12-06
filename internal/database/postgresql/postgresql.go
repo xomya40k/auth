@@ -53,7 +53,7 @@ func New(configDb config.Database) (*Database, error) {
 	return &Database{db: db}, nil
 }
 
-func (d *Database) SaveRefreshToken(user_GUID uuid.UUID, token string, jwtConfig config.JWT) (string, error) {
+func (d *Database) SaveRefreshToken(userGUID uuid.UUID, token string, jwtConfig config.JWT) (string, error) {
 	const op = "database.postgresql.SaveRefreshToken"
 
 	stmt, err := d.db.Prepare(`
@@ -77,7 +77,7 @@ func (d *Database) SaveRefreshToken(user_GUID uuid.UUID, token string, jwtConfig
 	created_at := time.Now()
 	expires_at := created_at.Add(jwtConfig.RefreshExpires)
 
-	_, err = stmt.Exec(user_GUID, hash, bind_key, expires_at, created_at)
+	_, err = stmt.Exec(userGUID, hash, bind_key, expires_at, created_at)
 	if err != nil {
 		if pqErr, ok := err.(*pq.Error); ok && pqErr.Code == "23505" {
 			return "", fmt.Errorf("%s: %w", op, database.ErrTokenExists)

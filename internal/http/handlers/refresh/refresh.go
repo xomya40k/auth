@@ -31,7 +31,7 @@ type Response struct {
 }
 
 type RefreshTokenStorage interface {
-	SaveRefreshToken(user_GUID uuid.UUID, token string, jwtConfig config.JWT) (string, error)
+	SaveRefreshToken(userGUID uuid.UUID, token string, jwtConfig config.JWT) (string, error)
 	RevokeRefreshToken(bindKey string) error
 	GetRefreshToken(bindKey string) (database.RefreshClaims, error)
 }
