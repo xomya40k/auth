@@ -1,0 +1,23 @@
+env: "Development"
+server:
+  host: "0.0.0.0"
+  port: 8080
+  timeout: 10s
+http:
+  timeout: 5s
+  idle_timeout: 30s
+database:
+  host: "database"
+  port: 5432
+  user: "postgres"
+  password: "password"
+  name: "postgres"
+jwt:
+  secret_key: "verysecretkey"
+  access_token_expires: 300s
+  refresh_token_expires: 3600s
+Email:
+  host: "smtp.gmail.com"
+  port: 587
+  from: "from@gmail.com"
+  password: "password"

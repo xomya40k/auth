@@ -1,0 +1,19 @@
+version: '3'
+services:
+  server:
+    build: ./
+    environment:
+      - CONFIG_PATH=./config/development.yaml
+    ports:
+      - 8080:8080
+    restart: always
+    depends_on:
+      - database
+  database:
+    image: postgres:17.2
+    environment:
+      - 'POSTGRES_PASSWORD=password'
+    ports:
+      - 5432:5432
+    restart: always
+  
