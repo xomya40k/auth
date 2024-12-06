@@ -128,8 +128,14 @@ func New(log *slog.Logger, refreshTokenStorage RefreshTokenStorage, emailSender 
 		refreshClaims, err := refreshTokenStorage.GetRefreshToken(bindKey)
 		if err != nil {
 			log.Error("Failed to find refresh token", sl.Err(err))
+			if errors.Is(err, database.ErrTokenNotFound) {
 			render.Status(r, 401)
 			render.JSON(w, r, resp.Error("Refresh token does not exist"))
+			} else {
+				render.Status(r, 500)
+				render.JSON(w, r, resp.Error("Can not to find refresh token"))
+			}
+
 			return
 		}
 
