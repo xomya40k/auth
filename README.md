@@ -5,7 +5,7 @@
 ```sh
 git clone github.com/xomya40k/auth
 ```
-### 3. Build and run
+### 2. Build and run
 ```sh
 docker compose up
 ```
