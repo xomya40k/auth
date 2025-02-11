@@ -1,6 +1,6 @@
 # Authicantion service
 
-## Install
+## Installation
 ### 1. Clone repository
 ```sh
 git clone github.com/xomya40k/auth
